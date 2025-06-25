@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MR_404_WORLD</title>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #0a0a0a, #1a1a1a);
+      color: #fff;
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    #mainApp {
+      width: 90%;
+      max-width: 600px;
+      background: rgba(25, 25, 25, 0.9);
+      padding: 20px;
+      border-radius: 15px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+      transition: all 0.3s ease-in-out;
+      text-align: center;
+      display: none; /* প্রথমে লুকানো থাকবে */
+    }
+
+    h1 {
+      font-size: 28px;
+      color: cyan;
+      text-shadow: 0 0 15px cyan;
+    }
+
+    h2 {
+      font-size: 22px;
+      color: lightblue;
+      text-shadow: 0 0 10px lightblue;
+    }
+
+    h3 {
+      font-size: 20px;
+      color: red;
+      text-shadow: 0 0 10px red;
+    }
+
+    #stats, #currentPrediction {
+      background: rgba(30, 30, 30, 0.8);
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 255, 255, 0.2);
+      margin-bottom: 20px;
+      transition: transform 0.3s ease;
+    }
+
+    #prediction {
+      font-size: 22px;
+      font-weight: bold;
+      color: #ff0;
+      text-shadow: 0 0 15px yellow;
+      animation: glowText 1s infinite alternate;
+    }
+
+    @keyframes glowText {
+      from { text-shadow: 0 0 10px yellow; }
+      to { text-shadow: 0 0 25px orange; }
+    }
+
+    .history-item {
+      padding: 12px;
+      border-radius: 8px;
+      margin-bottom: 12px;
+      background: rgba(40, 40, 40, 0.85);
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .history-item:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+    }
+
+    .win {
+      color: #0f0;
+      text-shadow: 0 0 10px lime;
+      font-weight: bold;
+    }
+
+    .loss {
+      color: #f00;
+      text-shadow: 0 0 10px red;
+      font-weight: bold;
+    }
+
+    .pending {
+      color: #ffa500;
+      text-shadow: 0 0 10px orange;
+      font-weight: bold;
+    }
+
+    #history {
+      max-height: 300px;
+      overflow-y: auto;
+      padding: 10px;
+      background: rgba(30, 30, 30, 0.5);
+      border-radius: 10px;
+      box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.1);
+      margin-bottom: 20px;
+    }
+
+    .clear-button {
+      background-color: #F44336;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      font-weight: bold;
+      border-radius: 8px;
+      cursor: pointer;
+      margin: 10px auto 20px;
+      box-shadow: 0 0 10px rgba(255, 0, 0, 0.4);
+      transition: background 0.3s ease;
+      display: block;
+    }
+
+    .clear-button:hover {
+      background-color: #d32f2f;
+    }
+    .password-icon {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%; /* গোলাকার করার জন্য */
+  display: block;
+  margin: 0 auto 15px auto; /* উপরের নিচে মার্জিন */
+  object-fit: cover; /* ছবি ঠিকভাবে ফিট হবে */
+  box-shadow: 0 0 10px cyan; /* ইচ্ছামতো শ্যাডো */
+}
+
+    /* Password Container */
+    #password-container {
+      background: rgba(25, 25, 25, 0.9);
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 0 15px cyan;
+      width: 300px;
+      text-align: center;
+    }
+
+    input[type="password"] {
+      width: 90%;
+      padding: 10px;
+      font-size: 18px;
+      margin-top: 10px;
+      border-radius: 5px;
+      border: none;
+    }
+
+    button#submit-password {
+      margin-top: 15px;
+      padding: 10px 20px;
+      font-size: 18px;
+      background: cyan;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    #error-msg {
+      color: #f44336;
+      margin-top: 15px;
+      min-height: 24px;
+    }
+
+    @media (max-width: 600px) {
+      #mainApp {
+        width: 95%;
+        padding: 15px;
+      }
+      #password-container {
+        width: 90%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Password Input Section -->
+<div id="password-container">
+  <img src="MRSEXX.png" alt="Password Icon" class="password-icon" />
+  <h2>Enter Password</h2>
+  <input type="password" id="password-input" placeholder="Password" />
+  <button id="submit-password" onclick="checkPassword()">Submit</button>
+  <div id="error-msg"></div>
+</div>
+
+  <!-- Main Website Content -->
+  <div id="mainApp">
+    <h1>@BDT_404_TEAM</h1>
+    <div id="currentPrediction">
+      <h3>BDT HACK WIN GO 1 minute</h3>
+      <p>🕐 TIME: <span id="clock">-</span></p>
+      <p>🔍 Current Period: <span id="currentPeriod">-</span></p>
+      <p>🎯 Prediction: <span id="prediction">-</span></p>
+    </div>
+
+    <div id="stats">
+      <p>📅 TODAY: <span id="date">-</span></p>
+      <p>🏆 Total Wins: <span id="totalWins">0</span></p>
+      <p>❌ Total Losses: <span id="totalLosses">0</span></p>
+      <p>🎯 Accuracy: <span id="accuracy">0%</span></p>
+    </div>
+
+    <div id="history">
+      <h2>📜 History</h2>
+    </div>
+
+    <button class="clear-button" onclick="clearHistory()">🗑️ Clear History</button>
+
+    <div style="margin-top: 20px;">
+      <a href="https://t.me/BDT_404_TEAM" target="_blank" class="telegram-button" style="background:#0088cc; color:#fff; padding:10px 15px; border-radius:6px; text-decoration:none; margin-right:10px;">Join Telegram Channel</a>
+      </div>
+       <div style="margin-top: 26px;">
+      <a href="https://youtube.com/@technical-tom?si=bKc_Z83zTY-6yAam" target="_blank" class="whatsapp-button" style="background:#FF0000; color:#fff; padding:10px 15px; border-radius:6px; text-decoration:none;">Join YouTube Channel</a>
+    </div>
+  </div>
+
+  <script>
+    
+  function checkPassword() {
+    const input = document.getElementById('password-input').value;
+    const errorMsg = document.getElementById('error-msg');
+    if (input === '404TEAM') {
+      // সঠিক পাসওয়ার্ড হলে মূল অ্যাপ দেখাও
+      document.getElementById('password-container').style.display = 'none';
+      document.getElementById('mainApp').style.display = 'block';
+    } else {
+      errorMsg.textContent = 'পাসওয়ার্ড ভুল হয়েছে। পাসওয়ার্ড পেতে আমাদের টেলিগ্রাম চ্যানেল যুক্ত হন……';
+      setTimeout(() => {
+        window.location.href = 'https://t.me/BDT_404_TEAM'; // আপনার টেলিগ্রাম লিংক
+      }, 0000); // ২ সেকেন্ড পর রিডাইরেক্ট
+    }
+  }
+
+
+    // --- Your existing JS code for the app below ---
+
+    let historyData = [];
+    let totalWins = 0;
+    let totalLosses = 0;
+    let totalPredictions = 0;
+    let correctPredictions = 0;
+    let currentPeriod = null;
+    let lastFetchedPeriod = null;
+
+    async function fetchGameResult() {
+      try {
+        let response = await fetch("https://api.bdg88zf.com/api/webapi/GetNoaverageEmerdList", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            pageSize: 10,
+            pageNo: 1,
+            typeId: 1,
+            language: 0,
+            random: "4a0522c6ecd8410496260e686be2a57c",
+            signature: "334B5E70A0C9B8918B0B15E517E2069C",
+            timestamp: Math.floor(Date.now() / 1000)
+          })
+        });
+
+        if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+        let data = await response.json();
+        let latestResult = data?.data?.list?.[0];
+        if (latestResult) {
+          return { period: latestResult.issueNumber, result: latestResult.number };
+        } else {
+          throw new Error("No data found in API");
+        }
+      } catch (error) {
+        console.error("Error fetching game result:", error);
+        return null;
+      }
+    }
+
+    function updateClock() {
+      const now = new Date();
+      const hours = now.getHours().toString().padStart(2, '0');
+      const minutes = now.getMinutes().toString().padStart(2, '0');
+      const seconds = now.getSeconds().toString().padStart(2, '0');
+      document.getElementById('clock').textContent = `${hours}:${minutes}:${seconds}`;
+    }
+
+    const now = new Date();
+    const day = now.getDate().toString().padStart(2, '0');
+    const month = (now.getMonth() + 1).toString().padStart(2, '0');
+    const year = now.getFullYear().toString().slice(2);
+    const formattedDate = `${day}.${month}.${year}`;
+    document.getElementById('date').textContent = formattedDate;
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    function trendAnalysis(history) {
+      let bigCount = history.filter(item => item.result >= 5).length;
+      let smallCount = history.filter(item => item.result < 5).length;
+      return bigCount > smallCount ? "BIG" : "SMALL";
+    }
+
+    function autoPredict() {
+      return { type: trendAnalysis(historyData) };
+    }
+
+    async function updatePrediction() {
+      let apiResult = await fetchGameResult();
+
+      if (apiResult && apiResult.period !== lastFetchedPeriod) {
+        lastFetchedPeriod = apiResult.period;
+        currentPeriod = (BigInt(apiResult.period) + 1n).toString();
+        let prediction = autoPredict();
+
+        document.getElementById("currentPeriod").innerText = currentPeriod;
+        document.getElementById("prediction").innerText = prediction.type;
+
+        historyData.unshift({ period: currentPeriod, result: apiResult.result, prediction: prediction.type, resultStatus: "Pending" });
+        updateHistory();
+        checkWinLoss(apiResult);
+      }
+    }
+
+    function checkWinLoss(apiResult) {
+      if (!apiResult) return;
+
+      historyData.forEach(item => {
+        if (item.period === apiResult.period) {
+          let actualResult = apiResult.result >= 5 ? "BIG" : "SMALL";
+          item.resultStatus = (item.prediction === actualResult) ? "WIN" : "LOSS";
+        }
+      });
+
+      updateStats();
+      updateHistory();
+    }
+
+    function updateStats() {
+      totalWins = historyData.filter(item => item.resultStatus === "WIN").length;
+      totalLosses = historyData.filter(item => item.resultStatus === "LOSS").length;
+      totalPredictions = historyData.length;
+      correctPredictions = totalWins;
+
+      document.getElementById("totalWins").innerText = totalWins;
+      document.getElementById("totalLosses").innerText = totalLosses;
+      document.getElementById("accuracy").innerText = ((correctPredictions / totalPredictions) * 100 || 0).toFixed(2) + '%';
+    }
+
+    function updateHistory() {
+      let historyDiv = document.getElementById("history");
+      historyDiv.innerHTML = `<h2>📜 History</h2>` + historyData.map(item => `
+        <div class="history-item ${item.resultStatus.toLowerCase()}">
+          🔍 <strong>Period:</strong> ${item.period}<br>
+          💹 <strong>Prediction:</strong> ${item.prediction}<br>
+          ${item.resultStatus === "WIN" ? "🏆 WIN 🏆" : item.resultStatus === "LOSS" ? "❌ LOSS ❌" : "🟡 Pending"}
+        </div>`).join('');
+    }
+
+    function clearHistory() {
+      const confirmClear = confirm("আপনি কি সত্যিই সমস্ত History মুছে ফেলতে চান?");
+      if (confirmClear) {
+        historyData = [];
+        totalWins = 0;
+        totalLosses = 0;
+        totalPredictions = 0;
+        correctPredictions = 0;
+        updateStats();
+        updateHistory();
+      }
+    }
+
+    // Prediction আপডেট প্রতি ৩ সেকেন্ডে
+    setInterval(() => {
+      // শুধু তখনই ডাটা আপডেট করব যখন পাসওয়ার্ড চেক হয়ে যাবে
+      if (document.getElementById('mainApp').style.display === 'block') {
+        updatePrediction();
+      }
+    }, 3000);
+  </script>
+</body>
+</html>
