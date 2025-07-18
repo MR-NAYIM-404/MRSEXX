@@ -18,9 +18,11 @@
       align-items: center;
       min-height: 100vh;
       font-family: sans-serif;
+      padding: 15px;
     }
     .container {
-      width: 360px;
+      width: 100%;
+      max-width: 360px;
       background: linear-gradient(to bottom right, #0a0a0a, #1c1c1c);
       border-radius: 15px;
       padding: 25px;
@@ -49,7 +51,7 @@
       font-size: 16px;
       margin-bottom: 10px;
     }
-    a.button {
+    .button {
       display: inline-block;
       padding: 10px 20px;
       border: 2px solid red;
@@ -59,8 +61,9 @@
       transition: background 0.3s, color 0.3s;
       font-weight: bold;
       cursor: pointer;
+      background: transparent;
     }
-    a.button:hover {
+    .button:hover {
       background-color: red;
       color: white;
     }
@@ -86,52 +89,55 @@
       font-size: 14px;
       min-height: 20px;
     }
-    .password-container {
-      width: 100%;
-      margin: 15px 0;
-    }
-    .steps {
-      margin: 10px 0;
-      color: #aaa;
-      font-size: 14px;
-    }
     #success {
       color: #33ff33;
       margin-top: 10px;
       font-size: 14px;
+    }
+    .password-container {
+      width: 100%;
+      margin: 15px 0;
+    }
+    .hidden-link {
+      color: transparent;
+      font-size: 1px;
+      text-decoration: none;
     }
   </style>
 </head>
 <body>
 
   <div class="container" id="step1">
-    <img src="MRSEXX.png" alt="Wingo Logo" class="logo" />
-    <div class="brand"> 𝐖ɪɴɢᴏ 𝐀ɴᴀʟʏsɪsʜ</div>
+    <img src="https://via.placeholder.com/100" alt="Wingo Logo" class="logo" />
+    <div class="brand">𝐖ɪɴɢᴏ 𝐀ɴᴀʟʏsɪsʜ</div>
     <h2>আমাদের ইউটিউব চ্যানেলটি সাবস্ক্রাইব করে আমাদের সাপোর্ট করুন</h2>
     
-    <a class="button" href="https://youtube.com/@technical-tom" target="_blank" onclick="nextStep()">SUBSCRIBE</a>
+    <button class="button" onclick="nextStep()">SUBSCRIBE</button>
+    <a href="https://youtube.com/@technical-tom" class="hidden-link" target="_blank">YouTube Link</a>
   </div>
 
   <div class="container" id="step2" style="display:none;">
-    <img src="MRSEXX.png" alt="Wingo Logo" class="logo" />
-    <div class="brand"> 𝐖ɪɴɢᴏ 𝐀ɴᴀʟʏsɪsʜ</div>
+    <img src="https://via.placeholder.com/100" alt="Wingo Logo" class="logo" />
+    <div class="brand">𝐖ɪɴɢᴏ 𝐀ɴᴀʟʏsɪsʜ</div>
     <h2>নিয়মিত আপডেট সংক্রান্ত হ্যাক পেতে এবং পাসওয়ার্ড পেতে আমাদের টেলিগ্রাম চ্যানেলে জয়েন করুন</h2>
     
-    <a class="button" href="https://t.me/BDT_404_TEAM" target="_blank" onclick="nextStep()">JOIN TELEGRAM</a>
+    <button class="button" onclick="nextStep()">JOIN TELEGRAM</button>
+    <a href="https://t.me/BDT_404_TEAM" class="hidden-link" target="_blank">Telegram Link</a>
   </div>
 
   <div class="container" id="loginForm" style="display:none;">
-    <img src="MRSEXX.png" alt="Wingo Logo" class="logo" />
+    <img src="https://via.placeholder.com/100" alt="Wingo Logo" class="logo" />
     <div class="brand">𝐖ɪɴɢᴏ 𝐀ɴᴀʟʏsɪsʜ</div>
-    <h2>এক্সক্লুসিভ কন্টেন্ট অ্যাক্সেস করতে লগইন করুন ।। লগইন করার জন্য পাসওয়ার্ড আমাদের টেলিগ্রাম চ্যানেলে আপলোড দেওয়া আছে আপনার একটা জিনিস মাথায় রাখতে হবে যেহেতু এটা হ্যাক অবশ্যই আপনাদের ৭-৮ স্টেপ ব্রেকআপ রাখতে হবে </h2>
+    <h2>এক্সক্লুসিভ কন্টেন্ট অ্যাক্সেস করতে লগইন করুন</h2>
     
     <div class="password-container">
       <input type="password" id="password" placeholder="এন্টার পাসওয়ার্ড" autocomplete="off">
     </div>
     
-    <a class="button login-button" href="#" onclick="login()">✔️ LOGIN</a>
+    <button class="button login-button" onclick="login()">✔️ LOGIN</button>
     <p id="error"></p>
     <p id="success"></p>
+    <a href="https://wingoanalyst.com/#/" class="hidden-link" target="_blank" id="successLink"></a>
   </div>
 
   <script>
@@ -153,11 +159,12 @@
 
       if (password === correctPassword) {
         document.getElementById("error").innerText = "";
-        document.getElementById("success").innerText = "✅ লগইন সফল! লিঙ্ক ওপেন হচ্ছে...";
+        document.getElementById("success").innerHTML = "✅ লগইন সফল! <br>এখন আপনি wingoanalyst.com এ রিডাইরেক্ট হচ্ছেন...";
         
-        // 2 সেকেন্ড পর নতুন ট্যাবে লিঙ্ক ওপেন করবে
+        // টেলিগ্রাম ওয়েবভিউতে রিডাইরেক্ট করার বিশেষ পদ্ধতি
         setTimeout(() => {
-          window.open("https://wingoanalyst.com/#/", "_blank");
+          const successLink = document.getElementById("successLink");
+          successLink.click();
         }, 2000);
       } else {
         document.getElementById("error").innerText = "❌ ভুল পাসওয়ার্ড! সঠিক পাসওয়ার্ড দিন";
@@ -173,7 +180,12 @@
         login();
       }
     });
-  </script>
 
+    // টেলিগ্রাম ওয়েবভিউ ডিটেকশন
+    const isTelegramWebView = /Telegram|WebApp/i.test(navigator.userAgent);
+    if (isTelegramWebView) {
+      document.body.style.padding = "0";
+    }
+  </script>
 </body>
 </html>
